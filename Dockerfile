@@ -1,20 +1,21 @@
-# Base image
 FROM node:18-alpine
 
-# Set the working directory
-WORKDIR /app
+ENV PORT 5000
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# Copy the entire app to the working directory
-COPY . .
+# Installing dependencies
+COPY package*.json /usr/src/app/
+RUN npm install
 
-# Build the Next.js app
+# Copying source files
+COPY . /usr/src/app
+
+# Building app
 RUN npm run build
+EXPOSE 5000
 
-# Expose the desired port (change this if your Next.js app uses a different port)
-EXPOSE 3000
-
-# Start the Next.js app
-CMD ["npm", "start"]
+# Running the app
+CMD "npm" "run" "dev"
