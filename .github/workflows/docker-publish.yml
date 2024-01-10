@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Create version.yaml
         run: |
-          cat <<EOF
+          cat <<EOF > version.yaml
           apiVersion: apps/v1
           kind: Deployment
           metadata:
@@ -45,7 +45,7 @@ jobs:
                 containers:
                   - name: dadosapp
                     image: $IMAGE_NAME
-          EOF > version.yaml
+          EOF
       - name: Checkout repository
         uses: actions/checkout@v3
 
