@@ -32,20 +32,6 @@ jobs:
       id-token: write
 
     steps:
-      - name: Create version.yaml
-        run: |
-          cat <<EOF > version.yaml
-          apiVersion: apps/v1
-          kind: Deployment
-          metadata:
-            name: dadosapp
-          spec:
-            template:
-              spec:
-                containers:
-                  - name: dadosapp
-                    image: $IMAGE_NAME
-          EOF
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -108,11 +94,25 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+      - name: Create version.yaml
+        run: |
+          cat <<EOF > version.yaml
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: dadosapp
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: dadosapp
+                    image: $IMAGE_NAME
+          EOF
       - name: Pushes test file
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-          
+
         with:
           source_file: 'version.yaml'
           destination_repo: 'Kiverling/gitops'
