@@ -116,6 +116,7 @@ jobs:
           source_file: 'version.yaml'
           destination_repo: 'Kiverling/gitops'
           destination_folder: 'kustomization/dadosapp/envs/dev'
+          destination_branch: master
           user_email: 'deploy@gmail.com'
           user_name: 'Auto Deploy'
           commit_message: 'Auto Deploy'
