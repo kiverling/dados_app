@@ -94,3 +94,28 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+      - name: Create version.yaml
+        run: |
+          echo <<<EOF
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: dadosapp
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: dadosapp
+                    image: $IMAGE_NAME
+          EOF > version.yaml
+      - name: Pushes test file
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: 'version.yaml'
+          destination_repo: 'Kiverling/gitops'
+          destination_folder: 'kustomization/dadosapp/envs/dev'
+          user_email: 'deploy@gmail.com'
+          user_name: 'Auto Deploy'
+          commit_message: 'Auto Deploy'
