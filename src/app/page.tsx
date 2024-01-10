@@ -5,7 +5,8 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>{ process.env.MESSAGE ?? "Hello! I am Traitor!" }</p>
+        <p>{process.env.MESSAGE ?? "Hello! I am Traitor!"}</p>
+        <p>Nit</p>
       </div>
     </main>
   );
