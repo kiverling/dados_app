@@ -45,7 +45,7 @@ jobs:
                 containers:
                   - name: dadosapp
                     image: $IMAGE_NAME
-          EOF > version.yaml
+EOF > version.yaml
       - name: Checkout repository
         uses: actions/checkout@v3
 
