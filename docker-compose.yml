@@ -8,5 +8,5 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    volumes:
-      - .:/usr/src/app
+    # volumes:
+    #   - .:/usr/src/app
